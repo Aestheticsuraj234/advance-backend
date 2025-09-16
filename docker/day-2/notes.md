@@ -1,3 +1,102 @@
+
+
+
+# 🚀 Notes: Pushing Docker Image to Docker Hub
+
+### 1. **Create a Docker Hub Account**
+
+* Go to [hub.docker.com](https://hub.docker.com)
+* Sign up or log in.
+* Create a **repository** where your image will be stored (e.g., `username/myapp`).
+
+---
+
+### 2. **Login to Docker Hub**
+
+Run this in your terminal:
+
+```bash
+docker login
+```
+
+* Enter your **Docker Hub username** and **password**.
+* If login is successful, you’ll see `Login Succeeded`.
+
+---
+
+### 3. **Build Your Docker Image**
+
+Make sure your project has a `Dockerfile`.
+Run:
+
+```bash
+docker build -t username/myapp:latest .
+```
+
+* `username` → your Docker Hub username.
+* `myapp` → name of your repo (must match the repo name in Docker Hub).
+* `:latest` → image tag (you can use versions like `:v1`, `:1.0.0`, etc.).
+
+---
+
+### 4. **Check Your Image**
+
+Verify the image is built:
+
+```bash
+docker images
+```
+
+You should see something like:
+
+```
+REPOSITORY          TAG       IMAGE ID       SIZE
+username/myapp      latest    abc12345       200MB
+```
+
+---
+
+### 5. **Push Image to Docker Hub**
+
+Run:
+
+```bash
+docker push username/myapp:latest
+```
+
+* This uploads your image to Docker Hub.
+* Wait until it finishes (depends on size).
+
+---
+
+### 6. **Verify on Docker Hub**
+
+* Go to [hub.docker.com](https://hub.docker.com) → your repo.
+* You should see your image + tags.
+
+---
+
+### 7. **Pull & Run Image Anywhere**
+
+On any system with Docker:
+
+```bash
+docker pull username/myapp:latest
+docker run -p 3000:3000 username/myapp:latest
+```
+
+---
+
+✅ **Quick Example**
+
+```bash
+docker build -t codestudent/notesapp:v1 .
+docker push codestudent/notesapp:v1
+docker pull codestudent/notesapp:v1
+```
+
+
+
 # Docker Compose vs Dockerfile - Key Differences
 
 ## Overview
