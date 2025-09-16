@@ -12,7 +12,7 @@ const pgClient = new Client({
   port: 5431,
   user: 'postgres',
   password: '1234',
-  database: 'e-commerce',
+  database: 'e-commerce-new',
 });
 
 

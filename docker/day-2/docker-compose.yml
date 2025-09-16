@@ -1,20 +1,17 @@
-name: e-commerce
+name: e-commerce-new
 
 services:
   db:
     image: postgres:16
-    container_name: postgress
     environment:
       POSTGRES_PASSWORD: 1234
       POSTGRES_USER: postgres
-      POSTGRES_DB: e-commerce
+      POSTGRES_DB: e-commerce-new
     ports:
-      - "5431:5432"
+      - "5431:5432"  
 
   redis:
     image: redis:7-alpine
     container_name: redis
     ports:
-      - "6379:6379"    
-    
-#docker run -it --name postgress
+      - "6379:6379"
