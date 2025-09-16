@@ -1,0 +1,20 @@
+name: e-commerce
+
+services:
+  db:
+    image: postgres:16
+    container_name: postgress
+    environment:
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_USER: postgres
+      POSTGRES_DB: e-commerce
+    ports:
+      - "5431:5432"
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"    
+    
+#docker run -it --name postgress
