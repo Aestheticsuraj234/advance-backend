@@ -1,10 +1,10 @@
 {
-  "name": "websockets",
+  "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+   "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +12,6 @@
   "type": "module",
   "dependencies": {
     "express": "^5.1.0",
-    "ws": "^8.18.3"
+    "socket.io": "^4.8.1"
   }
 }
