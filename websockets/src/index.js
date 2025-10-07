@@ -13,7 +13,6 @@ wss.on("connection" , (ws)=>{
     console.log("Client Connected")
     ws.on("message" , (message)=>{
         console.log("received: %s", message)
-        
     })
 
     ws.send("Hello Guys")
