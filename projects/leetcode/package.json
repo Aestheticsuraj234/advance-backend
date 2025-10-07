@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "docker-compose up -d && nodemon src/index.js"
   },
   "keywords": [],
   "author": "",
