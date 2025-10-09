@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -15,15 +14,44 @@ enum UserRole {
 }
 
 model User {
-  id  String @id @default(cuid())
-  name String? 
-  email String  @unique
-  image String?
-  role  UserRole @default(USER)
+  id       String   @id @default(cuid())
+  name     String?
+  email    String   @unique
+  image    String?
+  role     UserRole @default(USER)
   password String
+
+  problems Problem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+model Problem {
+  id          String     @id @default(cuid())
+  title       String
+  description String
+  difficulty  Difficulty
+
+  tags        String[]
+  examples    Json
+  constraints String
+  hints       String?
+  editorial   String?
+
+  testCases          Json
+  codeSnippets       Json
+  referenceSolutions Json
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
