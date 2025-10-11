@@ -17,4 +17,6 @@ router.post("/logout" , logout)
 
 router.get("/check" , authenticate , checkAuth)
 
+router.get("/get-submissions" , authenticate , getSubmissions)
+
 export default router;
