@@ -1,0 +1,24 @@
+{
+  "name": "orbitai-cli",
+  "version": "1.0.0",
+  "description": "OrbitAi CLI - Interactive gemini based chat in your terminal",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@ai-sdk/google": "^2.0.25",
+    "ai": "^5.0.82",
+    "boxen": "^8.0.1",
+    "chalk": "^5.6.2",
+    "dotenv": "^17.2.3",
+    "figlet": "^1.9.3",
+    "inquirer": "^12.10.0",
+    "ora": "^9.0.0"
+  }
+}
