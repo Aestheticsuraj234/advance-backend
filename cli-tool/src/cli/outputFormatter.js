@@ -31,15 +31,16 @@ export function printHelp() {
   const help = `
 Commands:
   /help   Show this help
+  /tools  Manage and enable AI tools (Google Search, Code Execution, URL Context)
+  /agent  Generate a complete application from a description
+           Usage: /agent [description] or just /agent to be prompted
   /exit   Quit the chat
 
 Tips:
   - Ask questions or paste content to discuss.
   - If the assistant lists options (1., 2., 3.), you'll be prompted to pick one.
-
-Planned features:
-  - /tools  Access tool-calling (filesystem, shell, etc.)
-  - /search Web search integration
+  - Use /tools to enable features like Google Search for real-time information.
+  - Use /agent to create complete applications with all files and setup commands.
 `;
   const boxed = boxen(chalk.white(help), {
     padding: 1,
@@ -48,4 +49,47 @@ Planned features:
     borderStyle: 'classic',
   });
   console.log(boxed);
+}
+
+export function printToolsMenu(availableTools) {
+  const enabledTools = availableTools.filter(t => t.enabled);
+  const enabledList = enabledTools.length > 0
+    ? enabledTools.map(t => `  ✓ ${t.name}`).join('\n')
+    : '  (none enabled)';
+  
+  const toolsInfo = `
+Available Tools:
+
+${availableTools.map(tool => {
+  const status = tool.enabled ? chalk.green('✓ ENABLED') : chalk.gray('○ Disabled');
+  return `  ${tool.name} [${status}]
+    ${chalk.dim(tool.description)}`;
+}).join('\n\n')}
+
+Currently Enabled:
+${enabledList}
+
+Use spacebar to toggle tools, then press Enter to save.
+`;
+  
+  const boxed = boxen(chalk.white(toolsInfo), {
+    padding: 1,
+    margin: 1,
+    borderColor: 'cyan',
+    borderStyle: 'round',
+    title: 'Tools Manager',
+    titleAlignment: 'center',
+  });
+  console.log(boxed);
+}
+
+export function printToolsStatus(availableTools) {
+  const enabledTools = availableTools.filter(t => t.enabled);
+  if (enabledTools.length === 0) {
+    printSystem('No tools are currently enabled. Use /tools to enable some.');
+    return;
+  }
+  
+  const statusText = `Enabled tools: ${enabledTools.map(t => chalk.green(t.name)).join(', ')}`;
+  printSystem(statusText);
 }

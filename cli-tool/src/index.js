@@ -1,5 +1,5 @@
 import { renderBanner } from "./cli/banner.js";
-import { promptUser, confirmChoice } from "./cli/inputHandler.js";
+import { promptUser, confirmChoice, selectTools, promptApplicationDescription } from "./cli/inputHandler.js";
 import {
   printSystem,
   printUser,
@@ -7,10 +7,14 @@ import {
   printAssistantStart,
   printAssistantChunk,
   printAssistantEnd,
+  printToolsMenu,
+  printToolsStatus,
 } from "./cli/outputFormatter.js";
 import { sendMessage } from "./ai/geminiService.js";
 import { parseOptionsFromText, safeExit } from "./utils/helpers.js";
 import { config } from "./config.js";
+import { availableTools, getEnabledTools, toggleTool, resetTools } from "./utils/tools.js";
+import { generateApplication } from "./utils/agentHandler.js";
 
 const messages = [];
 
@@ -43,6 +47,38 @@ async function main() {
         continue;
       }
 
+      if(userText.trim().toLowerCase() === "/tools"){
+        printToolsMenu(availableTools);
+        const selectedToolIds = await selectTools(availableTools);
+        
+        // Reset all tools first
+        resetTools();
+        
+        // Enable selected tools
+        for (const toolId of selectedToolIds) {
+          toggleTool(toolId);
+        }
+        
+        printToolsStatus(availableTools);
+        continue;
+      }
+
+      if(userText.trim().toLowerCase() === "/agent" || userText.trim().toLowerCase().startsWith("/agent ")){
+        let description = userText.trim().substring(7).trim();
+        
+        if (!description) {
+          description = await promptApplicationDescription();
+        }
+        
+        try {
+          await generateApplication(description, process.cwd());
+          printSystem("Type '/help' for commands. Type '/exit' to quit.");
+        } catch (err) {
+          printSystem(`Agent mode error: ${String(err?.message || err)}`);
+        }
+        continue;
+      }
+
       // Push in correct AI SDK v5 format
       messages.push({ role: "user", parts: [{ type: "text", text: userText }] });
       printUser(userText);
@@ -50,8 +86,10 @@ async function main() {
       let reply = "";
       try {
         printAssistantStart();
+        const enabledTools = getEnabledTools();
         reply = await sendMessage({
           messages,
+          tools: enabledTools,
           onChunk: (chunk) => printAssistantChunk(chunk),
         });
         printAssistantEnd();
@@ -71,8 +109,10 @@ async function main() {
           printUser(choose);
           try {
             printAssistantStart();
+            const enabledTools = getEnabledTools();
             const branchReply = await sendMessage({
               messages,
+              tools: enabledTools,
               onChunk: (chunk) => printAssistantChunk(chunk),
             });
             printAssistantEnd();

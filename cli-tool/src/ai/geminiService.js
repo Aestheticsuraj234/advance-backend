@@ -3,7 +3,7 @@ import { convertToModelMessages, streamText } from 'ai';
 import { google } from '@ai-sdk/google';
 import { config } from '../config.js';
 
-export async function sendMessage({ messages, onChunk, retries = 2 }) {
+export async function sendMessage({ messages, tools, system, onChunk, retries = 2, maxOutputTokens = 2048, temperature = 0.7 }) {
   if (!messages || !Array.isArray(messages)) {
     throw new Error('Messages must be an array');
   }
@@ -22,9 +22,11 @@ export async function sendMessage({ messages, onChunk, retries = 2 }) {
       });
       const { textStream } = streamText({
         model,
-        messages:convertToModelMessages(messages),
-        maxOutputTokens: 2048,
-        temperature: 0.7,
+        messages: convertToModelMessages(messages),
+        ...(system && { system }),
+        ...(tools && { tools }),
+        maxOutputTokens,
+        temperature,
       });
       spinner.stop();
       let full = '';

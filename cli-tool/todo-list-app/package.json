@@ -1,0 +1,25 @@
+{
+  "name": "todo-list-app",
+  "version": "1.0.0",
+  "description": "A simple, responsive todo list application built with HTML, CSS, and JavaScript, featuring local storage persistence.",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server --port=3000",
+    "dev": "live-server --port=3000",
+    "test": "echo \"No tests specified for this project.\" && exit 0"
+  },
+  "keywords": [
+    "todo",
+    "list",
+    "html",
+    "css",
+    "javascript",
+    "frontend",
+    "localstorage"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
